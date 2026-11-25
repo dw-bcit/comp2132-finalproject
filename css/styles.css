@@ -1,0 +1,269 @@
+/*
+    styles.scss
+    Author: David Wu
+*/
+/* SCSS Variables */
+/* Button Styling Mixin */
+/* Default Page Styling */
+html {
+  font-family: "Saira";
+}
+
+main {
+  padding: 5px;
+}
+main #objective {
+  text-align: center;
+}
+main #guesses-left {
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 10px;
+}
+
+/* Header Styling */
+.heading-section {
+  position: relative;
+  min-height: 100px;
+  background-color: #4c5baf;
+  display: flex;
+  background: url("../images/banner.jpeg") center/cover no-repeat;
+}
+.heading-section .title-container {
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+}
+.heading-section .title-container > h1 {
+  margin: 0;
+}
+
+/* Main Page Wrapper */
+#wrapper {
+  max-width: 1920px;
+  margin: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+  /* Flexbox layout */
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+}
+
+/* Hangman Game Styling */
+.hangman-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 0 clamp(15px, 4vw, 50px);
+}
+
+.game-scene {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #17191d;
+  border: 10px solid #292c32;
+  border-radius: 28px;
+  padding: 10px;
+  box-shadow: 0 0 0 2px #555960, 0 8px 20px rgba(0, 0, 0, 0.45), inset 0 0 10px rgba(255, 255, 255, 0.08);
+}
+.game-scene .game-overlay {
+  position: absolute;
+  inset: 10px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 30px 20px;
+  pointer-events: none;
+}
+.game-scene .game-overlay #word-display {
+  pointer-events: none;
+}
+.game-scene .game-overlay #btn-play-again {
+  background-color: #343941;
+  color: #fff;
+  border: 1px solid rgb(29.3333333333, 32.1538461538, 36.6666666667);
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.game-scene .game-overlay #btn-play-again:hover:not(:disabled) {
+  background-color: rgb(70.1333333333, 76.8769230769, 87.6666666667);
+}
+.game-scene .game-overlay #btn-play-again:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.game-scene .game-overlay #btn-play-again {
+  pointer-events: auto;
+  padding: 10px 25px;
+  font-size: 1rem;
+  position: absolute;
+  bottom: 100px;
+}
+.game-scene .keyboard {
+  display: grid;
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+/* Gameplay Image */
+#image-display {
+  display: block;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 14px;
+}
+
+/* Word Display Styling */
+#word-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: clamp(2px, 1vw, 12px);
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 95%;
+  background-color: rgba(0, 0, 0, 0.33);
+  border-radius: 8px;
+  padding: 10px clamp(6px, 2vw, 20px);
+}
+#word-display .letter {
+  font-family: "Saira", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 3vw, 2.5rem);
+  min-width: 0;
+  width: clamp(14px, 4vw, 30px);
+  flex-shrink: 1;
+  text-align: center;
+  line-height: 1.2;
+  color: #fff;
+  text-shadow: 2px 2px 4px #000;
+  padding: 0;
+  margin: 0;
+}
+
+/* Keyboard Styling */
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: clamp(2px, 0.6vw, 6px);
+  width: 100%;
+  max-width: 650px;
+}
+.keyboard .key {
+  background-color: #343941;
+  color: #fff;
+  border: 1px solid rgb(29.3333333333, 32.1538461538, 36.6666666667);
+  border-radius: 6px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.keyboard .key:hover:not(:disabled) {
+  background-color: rgb(70.1333333333, 76.8769230769, 87.6666666667);
+}
+.keyboard .key:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.keyboard .key {
+  min-width: 0;
+  padding: 6px 2px;
+  font-size: clamp(0.65rem, 1.5vw, 1.1rem);
+  line-height: 1.2;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Hint & Play Again Button Styling */
+#btn-hint {
+  background-color: #343941;
+  color: #fff;
+  border: 1px solid rgb(29.3333333333, 32.1538461538, 36.6666666667);
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+#btn-hint:hover:not(:disabled) {
+  background-color: rgb(70.1333333333, 76.8769230769, 87.6666666667);
+}
+#btn-hint:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#btn-hint {
+  padding: 10px 25px;
+  font-size: 1rem;
+}
+
+/* Responsive Styling */
+/* Mobile/Tablet */
+@media (max-width: 1099px) {
+  .game-scene .keyboard {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    margin: 20px auto;
+  }
+  .game-overlay #btn-play-again {
+    bottom: 10px;
+  }
+}
+/* Desktop Screens */
+@media (min-width: 1100px) {
+  .game-scene .keyboard {
+    display: grid;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+/* Custom Font Faces */
+@font-face {
+  font-family: "Saira";
+  src: url("../fonts/Saira-Regular.woff2") format("woff2"), url("../fonts/Saira-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Saira";
+  src: url("../fonts/Saira-bold.woff2") format("woff2"), url("../fonts/Saira-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/*
+AI NOTES
+- Can you take my stylesheet and convert the elements into a scss file? - https://chatgpt.com/s/t_6affcea6cebc8191b4f1684e1e495c22
+- I want the keyboard and word display to show over the image, how do I achieve that? - https://chatgpt.com/s/t_6b03d9dfe6f08191bc9b7b3024d96183
+- how do I make the word display more prominent, it looks tiny right now - https://chatgpt.com/s/t_6b03da34413c8191b667f9caef790941
+- it's not working, I suspect it's my font isn't scaling, I'm using Saira but how about we make the word display use saira bold which i have - https://chatgpt.com/s/t_6b03da20ee948191983a859c612bbde9 
+    - followed by: https://chatgpt.com/s/t_6b03da81d6588191ac88ab6c1bf2cca7
+- on the smaller viewport, the keyboard takes up the entire image, how do i make it so that <850px, the keyboard is separated and sits below the image? - https://chatgpt.com/s/t_6b0676304208819181a7c30372e23e85
+- give the game scene container some nicer edges, looks too hard right now, maybe try mimicking a tv - <no link available>
+- I want the play again button to be in the overlay, at centered at the bottom right above the keyboard. In the smaller viewport, it can overlay over the image - https://chatgpt.com/s/t_6b0676f6eb948191bfff5d787c7847f5
+- It's not working right, I want the play again button to show above the keyboard, it's currently showing below the word display. - https://chatgpt.com/s/t_6b06772e93948191abbac496bee2b695
+- It's not working, it still sits below the word display and the styling is not applying - https://chatgpt.com/s/t_6b067785e1148191b1fa481c939c7b98
+- Still not working and the button doesn't click either - https://chatgpt.com/s/t_6b0677b0a7c481918d7b1f5a43d64708
+
+*/

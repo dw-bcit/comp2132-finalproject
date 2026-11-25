@@ -5,15 +5,13 @@
 
 
 // HTML Elements
+const imageDisplay = document.getElementById('image-display')
 const wordDisplay = document.getElementById('word-display');
 const showHintButton = document.getElementById('btn-hint');
 const hintDisplay = document.getElementById('hint-display');
 const keyboardButtons = document.querySelectorAll(".key");
 const guessesLeftMsg = document.getElementById('guesses-left')
-const gameOverPopUp = document.getElementById('gameover-popup');
-const gameOverMsg = document.getElementById('gameover-msg');
 const playAgainButton = document.getElementById('btn-play-again');
-const closePopUpButton = document.getElementById('btn-close-popup');
 
 // Hangman Class
 class Hangman {
@@ -26,6 +24,9 @@ class Hangman {
     #guesses;
     #guessesLeft;
     #gameOver; 
+    #currentImageIndex;
+    #ImageIndexLimit;
+    #timeoutHandler;
 
     constructor(wordList){
         // Hangman Variables
@@ -39,6 +40,11 @@ class Hangman {
         this.#guesses = 0;
         this.#guessesLeft = this.#maxGuesses;
         this.#gameOver = false;
+
+        // Animation Properties
+        this.#currentImageIndex = 1;
+        this.#ImageIndexLimit = 27;
+        this.#timeoutHandler;
     }
 
     initializeGame(){
@@ -68,17 +74,28 @@ class Hangman {
         });
 
         // Display hidden word
-        wordDisplay.textContent = this.#hiddenWord.join(" ");
+        displayWord(this.#hiddenWord);
+
+        // Remove Play Again Button
+        playAgainButton.style.display = "none";
 
         // Show Hint button
         showHintButton.style.display = "block";
 
         // Set hint and hide it by default
-        hintDisplay.innerHTML = `<p>Hint: ${this.#selectedHint}</p>`;
+        hintDisplay.innerHTML = `<p><b>Hint: </b>${this.#selectedHint}</p>`;
         hintDisplay.style.display = "none";
 
         // Display Number of Guesses Remaining
         guessesLeftMsg.innerHTML = `<p>You have ${this.#guessesLeft} guesses remaining.</p>`
+
+        // Reset to Starting Image
+        imageDisplay.src = `../images/0-star.jpeg`; 
+        imageDisplay.alt = "0 Stars"
+
+        // Reset wasted animation
+        clearTimeout(this.#timeoutHandler);
+        this.#currentImageIndex = 1;
 
         // Reset gameOver status
         this.#gameOver = false;
@@ -99,13 +116,15 @@ class Hangman {
             }
 
             // Update Display
-            wordDisplay.textContent = this.#hiddenWord.join(" ");
+            displayWord(this.#hiddenWord);
         }
         else {
             // Increase guesses counter
             this.#guesses++;
 
             // Update Image
+            imageDisplay.src = `../images/${this.#guesses}-star.jpeg`; 
+            imageDisplay.alt = `${this.#guesses} Stars`
         }
         // Check whether game is over
         this.checkGameStatus();
@@ -118,14 +137,23 @@ class Hangman {
 
         // Check if hiddenWord is fully revealed (Win condition)
         if (!this.#hiddenWord.includes("_")){
-            // Display Win Message
-            gameOverMsg.innerHTML = `<p>You Win!</p>`;
-            gameOverPopUp.style.display = "block";
+            //Display Victory Image
+            if(this.#guesses < 4){
+                imageDisplay.src = `../images/victory.jpeg`; 
+                imageDisplay.alt = `You Win!`
+            }
+            else{
+                imageDisplay.src = `../images/victory-dmg.jpeg`; 
+                imageDisplay.alt = `You Win!`
+            }
 
             // Disable keyboard
             keyboardButtons.forEach(function(button) {
                 button.disabled = true;
             });
+
+            //Display Play Again
+            playAgainButton.style.display = "block";
 
             // Set gameOver status to true
             this.#gameOver = true;
@@ -134,9 +162,12 @@ class Hangman {
 
         // Check if maxGuesses has been reached (Lose condition)
         if (this.#guesses >= this.#maxGuesses){
-            // Display Lose Message
-            gameOverMsg.innerHTML = `<p>You Lose!</p>`;
-            gameOverPopUp.style.display = "block";
+            //Display Wasted Image
+            this.wastedAnimation(); 
+            imageDisplay.alt = `Wasted!`
+            
+            //Display Play Again
+            playAgainButton.style.display = "block";
 
             // Disable keyboard
             keyboardButtons.forEach(function(button) {
@@ -147,6 +178,26 @@ class Hangman {
             this.#gameOver = true;
             return;
         }
+    }
+
+    // Wasted Animation Function
+    wastedAnimation() {
+        // Stop animation when image limit is reached
+        if (this.#currentImageIndex > this.#ImageIndexLimit) {
+            clearTimeout(this.#timeoutHandler);
+            return;
+        }
+
+        // Update image
+        imageDisplay.src = `../images/wasted/wasted-${this.#currentImageIndex}.jpeg`;
+
+        // Update image index
+        this.#currentImageIndex++;
+
+        // Schedule next frame
+        this.#timeoutHandler = setTimeout(() => {
+            this.wastedAnimation();
+        }, 200);
     }
 }
 
@@ -171,24 +222,39 @@ fetch("json/words.json")
             console.error("Fetch error:", error);
         });
 
+// Display hidden word
+function displayWord(hiddenWord) {
 
+    // Clear existing word display
+    wordDisplay.innerHTML = "";
+
+    // Create individual span for each letter
+    hiddenWord.forEach(function(letter) {
+
+        const letterElement = document.createElement("span");
+
+        letterElement.classList.add("letter");
+
+        // Hide underscores while preserving the underline
+        letterElement.textContent = letter;
+
+        wordDisplay.appendChild(letterElement);
+    });
+} 
+
+// Click functionality for Hint Button
 showHintButton.addEventListener('click', function(){
     //Show Hint and hide hint button
     hintDisplay.style.display = "block";
     showHintButton.style.display = "none";
 });
 
+// Click functionality for Play Again Button
 playAgainButton.addEventListener('click', function(){
     hangmanGame.initializeGame();
-    // Close Popup
-    gameOverPopUp.style.display = "none";
 });
 
-// Close Popup without resetting the game
-closePopUpButton.addEventListener('click', function(){
-    gameOverPopUp.style.display = "none";
-});
-
+// Click functionality for keyboard keys
 keyboardButtons.forEach(function(button) {
     button.addEventListener("click", function() {
         // Get the letter from the clicked button
@@ -211,5 +277,5 @@ Prompt: what would be the best way to display the word in _ _ _ _ format? - http
 Prompt: without coding the entire section, give me the outline with the queryselectorall, alternatively, i can use jquery too, if it's easier - https://chatgpt.com/s/t_6af557674cc4819191223dafbe57f3d5
 Prompt: here's my current js <pasted code>. what would be recommended for an object constructor and what should i put in it? - https://chatgpt.com/s/t_6afe8b82289481918e07900e324829ba
 Prompt: i'm getting Uncaught SyntaxError: unexpected token: '{' final_project.js:32:28 - https://chatgpt.com/s/t_6afe8bbe17ac8191b84d677f0e209cc6
-Prmot: any other major issues with the code? - https://chatgpt.com/s/t_6afe8fb614388191a3fc5a90006e7c29
+Prompt: any other major issues with the code? - https://chatgpt.com/s/t_6afe8fb614388191a3fc5a90006e7c29
  */

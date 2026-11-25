@@ -9,67 +9,74 @@
     <title>Final Project - David Wu</title>         
     <meta charset="UTF-8"> 
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/styles.css">
     <script src="scripts/final_project.js" defer="defer"></script>
-    <script src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
 </head>
 
 <body>
     <header class="heading-section">
         <div class="blue-shape"></div>
         <div class="title-container">
-            <h1>Final Project</h1>
+            <h1>COMP 2132 Final Project - Hangman - Grand Theft Auto Edition</h1>
         </div>
     </header>
 
     <div id="wrapper">
         <main>
+            <div id="objective">
+                <p><b>Objective: </b>Your mission is to get to the safe house. Before entering, you'll need to decipher the password to get in. But be careful, for each wrong guess, your wanted level will increase.</p>
+            </div>
+            <div id="guesses-left"></div>
             <section class="hangman-container">
-                <div class="">
-                    <h2>Hangman Game</h2>
+                <div class="game-scene">
+                    <!-- Game Scene image -->
+                    <img id="image-display" src="" alt="">
+
+                    <!-- Overlay on top of image -->
+                    <div class="game-overlay">
+                        <div id="word-display"></div>
+                        <button id="btn-play-again" style="display: none;">Play Again?</button>
+                    </div>
+
+                    <!-- Keyboard -->
+                    <div class="keyboard">
+                            <button class="key">A</button>
+                            <button class="key">B</button>
+                            <button class="key">C</button>
+                            <button class="key">D</button>
+                            <button class="key">E</button>
+                            <button class="key">F</button>
+                            <button class="key">G</button>
+                            <button class="key">H</button>
+                            <button class="key">I</button>
+                            <button class="key">J</button>
+                            <button class="key">K</button>
+                            <button class="key">L</button>
+                            <button class="key">M</button>
+                            <button class="key">N</button>
+                            <button class="key">O</button>
+                            <button class="key">P</button>
+                            <button class="key">Q</button>
+                            <button class="key">R</button>
+                            <button class="key">S</button>
+                            <button class="key">T</button>
+                            <button class="key">U</button>
+                            <button class="key">V</button>
+                            <button class="key">W</button>
+                            <button class="key">X</button>
+                            <button class="key">Y</button>
+                            <button class="key">Z</button>
+                        </div>
                 </div>
-                <div id="word-display"></div>
                 <div id="hint-display"></div>
                 <button id="btn-hint">Hint</button>
-                <div class="keyboard">
-                    <button class="key">A</button>
-                    <button class="key">B</button>
-                    <button class="key">C</button>
-                    <button class="key">D</button>
-                    <button class="key">E</button>
-                    <button class="key">F</button>
-                    <button class="key">G</button>
-                    <button class="key">H</button>
-                    <button class="key">I</button>
-                    <button class="key">J</button>
-                    <button class="key">K</button>
-                    <button class="key">L</button>
-                    <button class="key">M</button>
-                    <button class="key">N</button>
-                    <button class="key">O</button>
-                    <button class="key">P</button>
-                    <button class="key">Q</button>
-                    <button class="key">R</button>
-                    <button class="key">S</button>
-                    <button class="key">T</button>
-                    <button class="key">U</button>
-                    <button class="key">V</button>
-                    <button class="key">W</button>
-                    <button class="key">X</button>
-                    <button class="key">Y</button>
-                    <button class="key">Z</button>
-                </div>
-                <div id="guesses-left"></div>
-            </section>      
-            <section id="gameover-popup" style="display: none;">
-                <div id="gameover-msg"></div>
-                <button id="btn-play-again">Play Again?</button>
-                <button id="btn-close-popup">Close</button>
-            </section>    
+            </section>        
         </main>
     </div>    
-    <footer>
-    </footer>
 </body>
 </html>
 
+<!-- AI NOTES
+- Images generated by Gemini
+https://share.gemini.google/CrYN3egbSuQe 
+-->
